@@ -49,6 +49,4 @@ describe("Counter Component", () => {
         const h1 = wrapper.find("h1");
         expect(h1.text()).toBe("-1");
     });
-
-
 });
