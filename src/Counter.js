@@ -10,7 +10,6 @@ class Counter extends Component {
 
         this.inc = this.inc.bind(this);
         this.dec = this.dec.bind(this);
-
     }
 
     inc() {
