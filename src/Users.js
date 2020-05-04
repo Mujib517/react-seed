@@ -8,12 +8,10 @@ class Users extends Component {
         super();
 
         this.state = { error: false, users: [] };
-        this.componentDidMount = this.componentDidMount.bind(this);
-        this.render = this.render.bind(this);
     }
 
     componentDidMount() {
-         getUsers()
+        getUsers()
             .then(res => {
                 this.setState({ users: res.data })
             })

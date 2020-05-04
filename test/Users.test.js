@@ -22,27 +22,28 @@ describe("Users Component", () => {
     });
 
     it("should render data returned from api call", async done => {
-        axios.get = jest.fn().mockResolvedValue({ data: [{ login: 'abc' }] });
+        userSvc.getUsers = jest.fn().mockResolvedValue({ data: [{ login: 'abc' }, { login: 'xyz' }] });
 
         const wrapper = mount(<Users />);
-        wrapper.update();
         await wait();
+        wrapper.update();
 
         const elems = wrapper.find("h3");
 
-        expect(elems).toHaveLength(1);
+        expect(elems).toHaveLength(2);
         done();
     });
 
     it("should show error message when there is an error from the api", async () => {
-        axios.get = jest.fn().mockRejectedValue({ error: "Failed" });
+        userSvc.getUsers = jest.fn().mockRejectedValue({ error: "Failed" });
 
         const wrapper = mount(<Users />);
-        wrapper.update();
         await wait();
+        wrapper.update();
 
         const elem = wrapper.find("span");
 
         expect(elem).toHaveLength(1);
+        expect(elem.text()).toBe("Error occured while fetching data")
     });
 });
