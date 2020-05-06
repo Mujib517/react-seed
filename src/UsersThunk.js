@@ -5,15 +5,8 @@ import { getUsers } from "./redux/actions";
 
 class UsersThunk extends Component {
 
-    constructor(props) {
-        super(props);
-
-
-        props.fetch();
-    }
-
     componentDidMount() {
-        console.log(this.props, 'init state');
+       this.props.fetch();
     }
 
     render() {
