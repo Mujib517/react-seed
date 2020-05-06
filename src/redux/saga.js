@@ -1,4 +1,4 @@
-import { takeLatest, put, call } from "redux-saga/effects";
+import { takeLatest, put, call, delay } from "redux-saga/effects";
 import {
     USER_FETCH_IN_PROGRESS, USER_FETCH_SUCCESS,
     USER_FETCH_REQUEST, USER_FETCH_FAILED
@@ -6,34 +6,25 @@ import {
 import Axios from "axios";
 import 'regenerator-runtime/runtime'
 
-
 function getUserData() {
-    return Axios.get("http://api.github.com/users");
+    return Axios.get("https://api.github.com/users1");
 }
 
-// worker saga
 function* fetchUsers() {
+    yield put({ type: USER_FETCH_IN_PROGRESS });
+    delay(1000);
     try {
-        console.log("fetching users");
-        put({ type: USER_FETCH_IN_PROGRESS });
-        //make an api call
         const res = yield call(getUserData);
-        console.log("got res", res);
-        put({ type: USER_FETCH_SUCCESS, payload: res.data });
+        yield put({ type: USER_FETCH_SUCCESS, payload: res.data });
     } catch (e) {
-        put({ type: USER_FETCH_FAILED });
+        yield put({ type: USER_FETCH_FAILED });
     }
+
 }
 
-// watcher saga
+
 function* appSaga() {
-    // press: 3 
-    takeLatest(USER_FETCH_REQUEST, fetchUsers);
+    yield takeLatest(USER_FETCH_REQUEST, fetchUsers);
 }
 
 export default appSaga;
-
-// React with classes
-// React with hooks
-// React with redux 
-// Unit testing
